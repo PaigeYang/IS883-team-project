@@ -156,6 +156,8 @@ user_query = st.text_input("Enter the name of the place you are looking for: ")
 if user_query:
     st.write("Please click the button to get your location: ")
     get_location = streamlit_geolocation()
+else:
+    get_location = None
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
