@@ -74,9 +74,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
 
     # If query is empty, get user's location
     if not query:
-        st.write("Please click the button to get your location: ")
-        get_location = streamlit_geolocation()
-
+        
         if get_location:
             location = (get_location['latitude'], get_location['longitude'])
         else:
@@ -162,6 +160,10 @@ st.title("🎈 My new app")
 # Get user query
 
 user_query = st.text_input("Enter the name of the place: ")
+
+if not user_query:
+    st.write("Please click the button to get your location: ")
+    get_location = streamlit_geolocation()
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
