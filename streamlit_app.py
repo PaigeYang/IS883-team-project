@@ -177,11 +177,9 @@ summary_type = st.selectbox(
     placeholder="Select your purpose...",
 )
 
-if summary_type:
-    processed_text = process_data(summary_type) 
 
-
-search_and_summarize_restaurants(user_query, store_type, summary_type)
+if summary_type and summary_type:
+    search_and_summarize_restaurants(user_query, store_type, summary_type)
 
 
 
