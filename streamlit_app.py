@@ -169,13 +169,14 @@ summary_type = st.selectbox(
     placeholder="Select your purpose...",
 )
 
+from streamlit_geolocation import streamlit_geolocation
+st.write(streamlit_geolocation()['latitude'])
+st.write(streamlit_geolocation()['longitude'])
+
 search_and_summarize_restaurants(user_query, store_type, summary_type)
 
 
-from streamlit_geolocation import streamlit_geolocation
-location = streamlit_geolocation()
-st.write(location['latitude'])
-st.write(location['longitude'])
+
 
 
 
