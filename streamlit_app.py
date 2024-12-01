@@ -161,7 +161,7 @@ st.title("🎈 My new app")
 
 user_query = st.text_input("Enter the name of the place: ")
 
-if not user_query:
+if user_query:
     st.write("Please click the button to get your location: ")
     get_location = streamlit_geolocation()
 
