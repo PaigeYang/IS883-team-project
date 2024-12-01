@@ -75,14 +75,14 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
     if not query:
         location = (42.3601, -71.0589)  # Get user location in Streamlit
         radius = 20000  # Radius in meters (20km)
-        print(f"Using user's location: {location}")
-        print(f"Search for radius = {radius/1000} km")
+        st.write(f"Using user's location: {location}")
+        st.write(f"Search for radius = {radius/1000} km")
 
     else:
         # Define a central location in Massachusetts (e.g., Boston)
         location = (42.3601, -71.0589)  # Latitude and Longitude of Boston, MA
         radius = 50000  # Radius in meters (50km)
-        print(f"Search for Great Boston area")
+        st.write(f"Search for Great Boston area")
 
 
 
@@ -112,7 +112,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
                 types = details["result"].get("types", []) # Get the type
                 restaurant_type = types[0] if types else "No type provided" # Extract the first type
 
-                print(f"Find reviews for {name}:")
+                st.write(f"Find reviews for {name}:")
                 dating_summary, gathering_summary = fetch_reviews_summary(reviews)
             else:
                 dating_summary = "No reviews available."
@@ -143,7 +143,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
         elif summary_type == "Gathering":
           df = df.drop(columns=["Dating Summary"])
 
-        print("All Restaurants with Summaries (Ordered by Overall Rating):")
+        st.write("All Restaurants with Summaries (Ordered by Overall Rating):")
         display(df.style.hide(axis="index"))
     else:
         print("No results found.")
