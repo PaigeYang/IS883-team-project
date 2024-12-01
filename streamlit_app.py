@@ -150,10 +150,24 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
 
 st.title("🎈 My new app")
 
+
 # Get user query
-store_type = st.text_input("Enter the type (restaurant/bar/cafe): ")
+
 user_query = st.text_input("Enter the name of the place: ")
-summary_type = st.text_input("Enter the summary type (Dating/Gathering): ")
+
+store_type = st.selectbox(
+    "What type of the place you are looking for?",
+    ("restaurant", "bar", "Mobile cafe"),
+    index=None,
+    placeholder="Select a type...",
+)
+
+summary_type = st.selectbox(
+    "What type of the place you are looking for?",
+    ("Dating", "Gathering"),
+    index=None,
+    placeholder="Select your purpose...",
+)
 
 search_and_summarize_restaurants(user_query, store_type, summary_type)
 
