@@ -144,7 +144,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
           df = df.drop(columns=["Dating Summary"])
 
         st.write("All Restaurants with Summaries (Ordered by Overall Rating):")
-        st.write(display(df.style.hide(axis="index")))
+        st.write(df.style.hide(axis="index"))
     else:
         print("No results found.")
 
