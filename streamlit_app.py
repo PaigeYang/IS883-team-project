@@ -157,7 +157,7 @@ user_query = st.text_input("Enter the name of the place: ")
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
-    ("restaurant", "bar", "Mobile cafe"),
+    ("restaurant", "bar", "cafe"),
     index=None,
     placeholder="Select a type...",
 )
