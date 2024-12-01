@@ -96,7 +96,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
 
     # Check for results
     if results and "results" in results:
-        restaurants = results["results"]
+        restaurants = results["results"][:5]
         final_data = []
         for restaurant in restaurants:
             name = restaurant.get("name")
@@ -144,7 +144,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
           df = df.drop(columns=["Dating Summary"])
 
         st.write("All Restaurants with Summaries (Ordered by Overall Rating):")
-        display(df.style.hide(axis="index"))
+        st.write(display(df.style.hide(axis="index")))
     else:
         print("No results found.")
 
