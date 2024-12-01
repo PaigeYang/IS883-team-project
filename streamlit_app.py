@@ -6,6 +6,7 @@ import json
 import re
 import ipywidgets as widgets
 from IPython.display import display, Javascript
+from streamlit_geolocation import streamlit_geolocation
 
 
 # Initialize Google Maps and OpenAI clients
@@ -73,7 +74,14 @@ def search_and_summarize_restaurants(query, store_type, summary_type):
 
     # If query is empty, get user's location
     if not query:
-        location = (42.3601, -71.0589)  # Get user location in Streamlit
+        st.write("Please click the button to get your location: ")
+        get_location = streamlit_geolocation()
+
+        if get_location:
+            location = (get_location['latitude'], get_location['longitude'])
+        else:
+            location = (42.3601, -71.0589)
+        
         radius = 20000  # Radius in meters (20km)
         st.write(f"Using user's location: {location}")
         st.write(f"Search for radius = {radius/1000} km")
@@ -169,9 +177,6 @@ summary_type = st.selectbox(
     placeholder="Select your purpose...",
 )
 
-from streamlit_geolocation import streamlit_geolocation
-st.write(streamlit_geolocation()['latitude'])
-st.write(streamlit_geolocation()['longitude'])
 
 search_and_summarize_restaurants(user_query, store_type, summary_type)
 
