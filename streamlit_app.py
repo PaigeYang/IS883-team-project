@@ -146,12 +146,12 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
     else:
         print("No results found.")
 
-st.title("🎈 My new app")
+st.title("🎈 Snap Review")
 
 
 # Get user query
 
-user_query = st.text_input("Enter the name of the place: ")
+user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 if user_query:
     st.write("Please click the button to get your location: ")
