@@ -172,8 +172,6 @@ summary_type = st.selectbox(
 search_and_summarize_restaurants(user_query, store_type, summary_type)
 
 
-pip install streamlit-geolocation
-
 from streamlit_geolocation import streamlit_geolocation
 location = streamlit_geolocation()
 st.write(location)
