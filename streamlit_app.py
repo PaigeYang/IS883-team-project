@@ -7,10 +7,7 @@ import re
 import ipywidgets as widgets
 from IPython.display import display, Javascript
 from streamlit_geolocation import streamlit_geolocation
-#from streamlit_extras.button_selector import button_selector
-#from streamlit_extras.app_logo import add_logo
 
-st.title("Quick Google Review Summary")
 
 # Initialize Google Maps and OpenAI clients
 GOOGLE_API_KEY = st.secrets["GoogleMapsKey"]
@@ -19,27 +16,26 @@ gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
 openai.api_key = OPENAI_API_KEY
 
 def fetch_reviews_summary(reviews):
-    """Summarize reviews into different categories using OpenAI."""
+    """Summarize reviews into Dating and Gathering categories using OpenAI."""
     if not reviews:
-        return "No reviews available.", "No reviews available.", "No reviews available."
+        return "No reviews available.", "No reviews available."
 
     review_texts = "\n".join([review.get("text", "") for review in reviews if review.get("text")])
     #print ("review_texts: ", review_texts)
 
     prompt = f"""
-        Please summarize the information relevant to the category assigned to you.
+    Please summarize the information relevant to the category assigned to you.
     Summarize the following reviews into two categories:
-    1. Dating Summary (focus on the experience, atmosphere, cuisine, and service quality for couples).
-    2. Gathering Summary (focus on the experience, location, accessibility, and seating for groups of friends or families).
-    3. Remote Working Summary (focus on the Wi-Fi quality, power outlets, and noise level for people who are doing remote working).
+    1. Dating Summary (focus on the experience for couples).
+    2. Gathering Summary (focus on the experience for groups of friends or families).
 
     Please provide the summaries in the following JSON format:
-    {{"Dating Summary": "your summary", "Gathering Summary": "your summary", "Gathering Summary": "Remote Working Summary"}}
+    {{"Dating Summary": "your summary", "Gathering Summary": "your summary"}}
 
     Reviews:
     {review_texts}
 
-    Keep your Summary under 50 words for each.
+    Keep your Dating Summary and your Gathering Summary under 50 words for each.
     """
     try:
         response = openai.ChatCompletion.create(
@@ -66,37 +62,35 @@ def fetch_reviews_summary(reviews):
 
         dating_summary = summary.get("Dating Summary", "No dating summary found.")
         gathering_summary = summary.get("Gathering Summary", "No gathering summary found.")
-        remote_working_summary = summary.get("Remote Working Summary", "No remote working summary found.")
 
-        return dating_summary, gathering_summary, remote_working_summar
+
+
+        return dating_summary, gathering_summary
 
     except Exception as e:
-        return "Error summarizing reviews.", "Error summarizing reviews.", "Error summarizing reviews."
+        return "Error summarizing reviews.", "Error summarizing reviews."
 
 def search_and_summarize_restaurants(query, store_type, summary_type, get_location):
-    
-    # If query is empty, get user's location
-    if not query:
-        location = (42.3601, -71.0589)  # Get user location in Streamlit
+        
+    if get_location:
+        location = (get_location['latitude'], get_location['longitude'])
         radius = 20000  # Radius in meters (20km)
-        print(f"Using user's location: {location}")
-        print(f"Search for radius = {radius/1000} km")
-
+        st.write(f"Using user's location: {location}")
+        st.write(f"Search for radius = {radius/1000} km")
     else:
         # Define a central location in Massachusetts (e.g., Boston)
         location = (42.3601, -71.0589)  # Latitude and Longitude of Boston, MA
         radius = 50000  # Radius in meters (50km)
-        print(f"Search for Great Boston area")
-
+        st.write(f"Search for Great Boston area")
 
 
     # Use the Places API to search for the restaurant
     results = gmaps.places(
+        query=query,
         location=location,
         radius=radius,
         type=store_type
     )
-    
 
     # Check for results
     if results and "results" in results:
@@ -116,12 +110,11 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
                 types = details["result"].get("types", []) # Get the type
                 restaurant_type = types[0] if types else "No type provided" # Extract the first type
 
-                #st.write(f"Find reviews for {name}:")
-                dating_summary, gathering_summary, remote_working_summary = fetch_reviews_summary(reviews)
+                st.write(f"Find reviews for {name}:")
+                dating_summary, gathering_summary = fetch_reviews_summary(reviews)
             else:
                 dating_summary = "No reviews available."
                 gathering_summary = "No reviews available."
-                remote_working_summary = "No reviews available."
 
             # Append restaurant data
             final_data.append({
@@ -132,8 +125,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
                 #"types": types,
                 "Address": address,
                 "Dating Summary": dating_summary,
-                "Gathering Summary": gathering_summary,
-                "Remote Working Summary": remote_working_summary
+                "Gathering Summary": gathering_summary
             })
 
         # Create and display the DataFrame
@@ -146,48 +138,41 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
          # Filter columns based on summary_type
         if summary_type == "Dating":
           df = df.drop(columns=["Gathering Summary"])
-          df = df.drop(columns=["Remote Working Summary"])
         elif summary_type == "Gathering":
           df = df.drop(columns=["Dating Summary"])
-          df = df.drop(columns=["Remote Working Summary"])
-        elif summary_type == "Remote Working":
-          df = df.drop(columns=["Dating Summary"])
-          df = df.drop(columns=["Gathering Summary"])
 
         st.write("All Restaurants with Summaries (Ordered by Overall Rating):")
-        
-        for index, row in df.iterrows():
-          for column, value in row.items():
-            st.write(f"{column}: {value}")
-          st.write()
+        st.write(df.style.hide(axis="index"))
     else:
-        st.write("No results found.")
+        print("No results found.")
 
-#store_type = ["Restaurant", "Bar", "Cafe"]
-#selected_index = button_selector(store_type, index=0, spec=4, key="button_selector_place_type", label="What kind of place are you looking for?")
-#st.write(f"Selected month: {store_type[selected_index]}")
+st.title("🎈 Snap Review")
+
+
+# Get user query
+
+user_query = st.text_input("Enter the name of the place you are looking for: ")
+
+if user_query:
+    st.write("Please click the button to get your location: ")
+    get_location = streamlit_geolocation()
+else:
+    get_location = None
 
 store_type = st.selectbox(
-    "I am looking for a ...",
-    ("Restaurant", "Bar", "Cafe"),
+    "What type of the place you are looking for?",
+    ("restaurant", "bar", "cafe"),
     index=None,
-    placeholder="Please select ...",
+    placeholder="Select a type...",
 )
 
 summary_type = st.selectbox(
-    "For my purpose of ...",
-    ("Dating", "Gathering", "Working", "Friends"),
+    "What type of the place you are looking for?",
+    ("Dating", "Gathering"),
     index=None,
-    placeholder="Please select ...",
+    placeholder="Select your purpose...",
 )
 
-# Get user query
-user_query = st.text_input("(Optional) Enter the name of the place if you're looking for a specific place. (Ex. KFC, Cafe Nero)")
 
-# Get user location
-st.write("Please click the button to get your location: ")
-get_location = streamlit_geolocation()
-
-
-if store_type and summary_type:
+if summary_type and summary_type:
     search_and_summarize_restaurants(user_query, store_type, summary_type, get_location)
