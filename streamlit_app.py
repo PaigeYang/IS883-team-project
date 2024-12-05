@@ -75,7 +75,7 @@ def fetch_reviews_summary(reviews):
 
 def search_and_summarize_restaurants(query, store_type, summary_type, get_location):
         
-    if get_location:
+    if query:
         location = (get_location['latitude'], get_location['longitude'])
         radius = 20000  # Radius in meters (20km)
         st.write(f"Using user's location: {location}")
@@ -87,17 +87,12 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
         st.write(f"Search for Great Boston area")
 
     # Use the Places API to search for the restaurant
-    params = {
-    "location": location,
-    "radius": radius,
-    "type": store_type
+    results = gmaps.places(
+        query=query,
+        location=location,
+        radius=radius,
+        type=store_type
     }
-    
-    # Add 'query' to params only if it's provided
-    if query:
-        params["query"] = query
-
-    results = gmaps.places(**params)
     
 
 
