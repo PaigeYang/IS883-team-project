@@ -75,24 +75,29 @@ def fetch_reviews_summary(reviews):
 
 def search_and_summarize_restaurants(query, store_type, summary_type, get_location):
     
-    if get_location:
-        #location = (get_location['latitude'], get_location['longitude'])
-        location = (42.3601, -71.0589)
+    # If query is empty, get user's location
+    if not query:
+        location = (42.3601, -71.0589)  # Get user location in Streamlit
         radius = 20000  # Radius in meters (20km)
-        st.write(f"Using user's location: {location}")
-        st.write(f"Search for radius = {radius/1000} km")
+        print(f"Using user's location: {location}")
+        print(f"Search for radius = {radius/1000} km")
+
     else:
         # Define a central location in Massachusetts (e.g., Boston)
         location = (42.3601, -71.0589)  # Latitude and Longitude of Boston, MA
         radius = 50000  # Radius in meters (50km)
-        st.write(f"Search for Great Boston area")
+        print(f"Search for Great Boston area")
+
+
 
     # Use the Places API to search for the restaurant
     results = gmaps.places(
+        query=query,
         location=location,
         radius=radius,
         type=store_type
     )
+    print (query)
     
 
 
