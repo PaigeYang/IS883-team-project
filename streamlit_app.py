@@ -10,8 +10,6 @@ from streamlit_geolocation import streamlit_geolocation
 #from streamlit_extras.button_selector import button_selector
 #from streamlit_extras.app_logo import add_logo
 
-st.set_page_config(page_title="Snap Review", page_icon="img/SnapReviewIcon.png")
-st.image("img/SnapReviewIcon.png", caption=None)
 st.title("Quick Google Review Summary")
 
 # Initialize Google Maps and OpenAI clients
