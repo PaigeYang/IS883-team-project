@@ -154,7 +154,7 @@ st.title("🎈 Snap Review")
 user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 
-st.write(f"Screen width is {streamlit_js_eval(js_expressions='screen.width', key = 'SCR')}")
+location = get_geolocation()
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
