@@ -187,5 +187,5 @@ st.write("Please click the button to get your location: ")
 get_location = streamlit_geolocation()
 
 
-if summary_type and summary_type:
+if store_type and summary_type:
     search_and_summarize_restaurants(user_query, store_type, summary_type, get_location)
