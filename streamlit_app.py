@@ -86,8 +86,6 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
         radius = 50000  # Radius in meters (50km)
         st.write(f"Search for Great Boston area")
 
-    query = None
-
     # Use the Places API to search for the restaurant
     results = gmaps.places(
         query=query,
@@ -189,4 +187,4 @@ get_location = streamlit_geolocation()
 
 
 if summary_type and summary_type and get_location:
-    search_and_summarize_restaurants(user_query, store_type, summary_type, get_location)
+    search_and_summarize_restaurants(user_query, store_type, summary_type)
