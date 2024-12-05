@@ -7,7 +7,7 @@ import re
 import ipywidgets as widgets
 from IPython.display import display, Javascript
 from streamlit_geolocation import streamlit_geolocation
-from get_geolocation import import streamlit_js_eval
+from get_geolocation import streamlit_js_eval
 
 
 # Initialize Google Maps and OpenAI clients
