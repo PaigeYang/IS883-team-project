@@ -155,6 +155,7 @@ user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 
 location = get_geolocation()
+st.write(location)
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
