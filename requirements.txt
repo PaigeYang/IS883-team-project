@@ -5,3 +5,4 @@ pandas
 ace-tools
 openai==0.27.8
 ipywidgets
+streamlit_js_eval
