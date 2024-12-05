@@ -87,12 +87,19 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
         st.write(f"Search for Great Boston area")
 
     # Use the Places API to search for the restaurant
-    results = gmaps.places(
-        query=query,
-        location=location,
-        radius=radius,
-        type=store_type
-    )
+    params = {
+    "location": location,
+    "radius": radius,
+    "type": store_type
+    }
+    
+    # Add 'query' to params only if it's provided
+    if query:
+        params["query"] = query
+
+    results = gmaps.places(**params)
+    
+
 
     # Check for results
     if results and "results" in results:
@@ -181,10 +188,9 @@ summary_type = st.selectbox(
 user_query = st.text_input("(Optional) Enter the name of the place if you're looking for a specific place. (Ex. KFC, Cafe Nero)")
 
 # Get user location
-get_location = None
 st.write("Please click the button to get your location: ")
 get_location = streamlit_geolocation()
 
 
 if summary_type and summary_type and get_location:
-    search_and_summarize_restaurants(user_query, store_type, summary_type)
+    search_and_summarize_restaurants(user_query, store_type, summary_type, get_location)
