@@ -152,7 +152,7 @@ st.title("🎈 Snap Review")
 
 
 
-location = get_geolocation()
+get_location = get_geolocation()
 st.write(location)
 
 store_type = st.selectbox(
