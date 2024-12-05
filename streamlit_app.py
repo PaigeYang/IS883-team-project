@@ -76,7 +76,8 @@ def fetch_reviews_summary(reviews):
 def search_and_summarize_restaurants(query, store_type, summary_type, get_location):
     
     if get_location:
-        location = (get_location['latitude'], get_location['longitude'])
+        #location = (get_location['latitude'], get_location['longitude'])
+        location = (42.3601, -71.0589)
         radius = 20000  # Radius in meters (20km)
         st.write(f"Using user's location: {location}")
         st.write(f"Search for radius = {radius/1000} km")
