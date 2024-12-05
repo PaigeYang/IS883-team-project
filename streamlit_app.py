@@ -89,7 +89,6 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
 
     # Use the Places API to search for the restaurant
     results = gmaps.places(
-        query=query,
         location=location,
         radius=radius,
         type=store_type
