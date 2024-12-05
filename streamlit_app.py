@@ -74,8 +74,8 @@ def fetch_reviews_summary(reviews):
         return "Error summarizing reviews.", "Error summarizing reviews.", "Error summarizing reviews."
 
 def search_and_summarize_restaurants(query, store_type, summary_type, get_location):
-        
-    if query:
+    
+    if get_location:
         location = (get_location['latitude'], get_location['longitude'])
         radius = 20000  # Radius in meters (20km)
         st.write(f"Using user's location: {location}")
