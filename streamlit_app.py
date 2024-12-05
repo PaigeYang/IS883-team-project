@@ -149,9 +149,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
 st.title("🎈 Snap Review")
 
 
-# Get user query
 
-user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 
 location = get_geolocation()
@@ -171,6 +169,8 @@ summary_type = st.selectbox(
     placeholder="Select your purpose...",
 )
 
+# Get user query
+user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 if summary_type and summary_type:
     search_and_summarize_restaurants(user_query, store_type, summary_type, get_location)
