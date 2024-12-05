@@ -6,7 +6,7 @@ import json
 import re
 import ipywidgets as widgets
 from IPython.display import display, Javascript
-from get_geolocation import streamlit_js_eval
+import streamlit_js_eval
 
 
 # Initialize Google Maps and OpenAI clients
