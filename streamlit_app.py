@@ -7,6 +7,7 @@ import re
 import ipywidgets as widgets
 from IPython.display import display, Javascript
 from streamlit_geolocation import streamlit_geolocation
+from get_geolocation import import streamlit_js_eval
 
 
 # Initialize Google Maps and OpenAI clients
@@ -154,7 +155,7 @@ st.title("🎈 Snap Review")
 user_query = st.text_input("Enter the name of the place you are looking for: ")
 
 
-get_location = streamlit_geolocation()
+get_location = get_geolocation()
 
 store_type = st.selectbox(
     "What type of the place you are looking for?",
