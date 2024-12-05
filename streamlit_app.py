@@ -92,7 +92,7 @@ def search_and_summarize_restaurants(query, store_type, summary_type, get_locati
         location=location,
         radius=radius,
         type=store_type
-    }
+    )
     
 
 
